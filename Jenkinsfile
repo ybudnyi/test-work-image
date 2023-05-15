@@ -40,16 +40,17 @@ options {
             }
         }
         stage('CHECK IMAGE') {
-            sh "/usr/local/bin/trivy image --format template --template @./html.tpl -o report.html ghcr.io/ybudnyi/test-work-image:${VERSION}.${env.BUILD_ID}"
-            publishHTML target : [
-                    allowMissing: true,
-                    alwaysLinkToLastBuild: true,
-                    keepAll: true,
-                    reportFiles: 'report.html',
-                    reportName: 'Trivy Scan',
-                    reportTitles: 'Trivy Scan'
-                ]
-
+            steps {
+                sh "/usr/local/bin/trivy image --format template --template @./html.tpl -o report.html ghcr.io/ybudnyi/test-work-image:${VERSION}.${env.BUILD_ID}"
+                publishHTML target : [
+                        allowMissing: true,
+                        alwaysLinkToLastBuild: true,
+                        keepAll: true,
+                        reportFiles: 'report.html',
+                        reportName: 'Trivy Scan',
+                        reportTitles: 'Trivy Scan'
+                    ]
+            }
         }
         stage('PUSH IMAGES') {
             steps {
