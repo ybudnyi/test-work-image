@@ -44,6 +44,7 @@ options {
                 withCredentials([usernamePassword(credentialsId: 'registry', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
                     sh "/usr/local/bin/docker login ghcr.io -u $USERNAME -p $PASSWORD"
                     sh "/usr/local/bin/docker push ghcr.io/ybudnyi/test-work-image:${VERSION}.${env.BUILD_ID}"
+                }
             }
         }
     }
