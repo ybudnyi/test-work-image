@@ -26,14 +26,12 @@ options {
         }
         stage('CODE INSPECTION WITH SONARQUBE') {
             steps {
-
                     sh "/Users/yuriibudnyi/.sonar/sonar-scanner-4.7.0.2747-macosx/bin/sonar-scanner \
                         -Dsonar.organization=test-work \
                         -Dsonar.projectKey=test-work \
                         -Dsonar.sources=./docker \
-                        -Dsonar.host.url=https://sonarcloud.io
-                        -Dsonar.login=$SONAR"
-
+                        -Dsonar.host.url=https://sonarcloud.io \
+                        -Dsonar.login=${SONAR}"
             }
         }
         stage('BUILD_IMAGES') {
