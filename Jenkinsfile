@@ -51,9 +51,9 @@ options {
     post {
         always{
             cleanWs()
+        }
         success{
                     build job: 'change-charts', parameters: [string(name: 'TAG', value: "${env.BUILD_ID}")] , propagate: false
                 }
-        }
     }
 }
