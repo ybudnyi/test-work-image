@@ -41,12 +41,8 @@ options {
         }
         stage('PUSH IMAGES') {
             steps {
-                script {
-                    sh "/usr/local/bin/docker login ghcr.io -u $ghcr_user -p ${VCS_TOKEN}"
-                    // sh (script: "/bin/bash -c 'echo ${VCS_TOKEN} | /usr/local/bin/docker login ghcr.io -u ybudnyi --password-stdin'")
-                    sh "/usr/local/bin/docker push ghcr.io/ybudnyi/test-work-image:${VERSION}.${env.BUILD_ID}"
-                }
-                
+                sh "/usr/local/bin/docker login ghcr.io -u ybudnyi -p ${VCS_TOKEN}"
+                sh "/usr/local/bin/docker push ghcr.io/ybudnyi/test-work-image:${VERSION}.${env.BUILD_ID}"
             }
         }
     }
