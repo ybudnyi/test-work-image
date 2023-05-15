@@ -1,0 +1,8 @@
+main.Handler.do_GET
+open
+==
+read
+end_headers
+send_response
+send_header
+write

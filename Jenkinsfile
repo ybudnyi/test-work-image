@@ -27,10 +27,12 @@ options {
         stage('CODE INSPECTION WITH SONARQUBE') {
             steps {
                     sh "export SONAR_TOKEN=${SONAR}"
+                    sh "echo $SONAR"
+                    sh "echo $SONAR_TOKEN"
                     sh '/Users/yuriibudnyi/.sonar/sonar-scanner-4.7.0.2747-macosx/bin/sonar-scanner \
                         -Dsonar.organization=test-work \
                         -Dsonar.projectKey=test-work \
-                        -Dsonar.sources=./docker/ \
+                        -Dsonar.sources=./docker \
                         -Dsonar.host.url=https://sonarcloud.io'
             }
         }
@@ -49,9 +51,9 @@ options {
     post {
         always{
             cleanWs()
-        // success{
-        //             build job: 'Dashvis_CD', parameters: [string(name: 'TAG', value: "${env.BUILD_ID}")] , propagate: false
-        //         }
+        success{
+                    build job: 'change-charts', parameters: [string(name: 'TAG', value: "${env.BUILD_ID}")] , propagate: false
+                }
         }
     }
 }

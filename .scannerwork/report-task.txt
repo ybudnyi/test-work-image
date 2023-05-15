@@ -1,0 +1,7 @@
+organization=test-work
+projectKey=test-work
+serverUrl=https://sonarcloud.io
+serverVersion=8.0.0.40943
+dashboardUrl=https://sonarcloud.io/dashboard?id=test-work
+ceTaskId=AYgggNCOc6HM-yqdrM4-
+ceTaskUrl=https://sonarcloud.io/api/ce/task?id=AYgggNCOc6HM-yqdrM4-
