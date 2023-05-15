@@ -36,7 +36,7 @@ options {
         }
         stage('BUILD_IMAGES') {
             steps {
-                sh "cd docker && /usr/local/bin/docker build -t ghcr.io/ybudnyi/test-work-image:${env.BUILD_ID} ."
+                sh "cd docker && /usr/local/bin/docker build -t ghcr.io/ybudnyi/test-work-image:${VERSION}.${env.BUILD_ID} ."
             }
         }
         stage('PUSH IMAGES') {
