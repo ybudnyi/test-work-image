@@ -5,6 +5,7 @@ pipeline {
     BRANCH = 'main'
     PRODUCT_REPO = "https://github.com/ybudnyi/test-work-image.git"
     VCS_TOKEN = credentials('github')
+    DOCKER = credentials('docker')
     SONAR=credentials('sonar')
 
   }
@@ -36,13 +37,13 @@ options {
         // }
         stage('BUILD_IMAGES') {
             steps {
-                sh "cd docker && /usr/local/bin/docker build -t ghcr.io/ybudnyi/test-work-image:${VERSION}.${env.BUILD_ID} ."
+                sh "cd docker && /usr/local/bin/docker build -t ybudnyi/test-work:${VERSION}.${env.BUILD_ID} ."
             }
         }
         stage('PUSH IMAGES') {
             steps {
-                sh "/usr/local/bin/docker login ghcr.io -u ybudnyi -p ${VCS_TOKEN}"
-                sh "/usr/local/bin/docker push ghcr.io/ybudnyi/test-work-image:${VERSION}.${env.BUILD_ID}"
+                sh "/usr/local/bin/docker login -u ybudnyi -p ${DOCKER}"
+                sh "/usr/local/bin/docker push ybudnyi/test-work:${VERSION}.${env.BUILD_ID}"
             }
         }
     }
