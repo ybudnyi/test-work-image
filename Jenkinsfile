@@ -19,25 +19,37 @@ options {
                 git (branch: "${BRANCH}", credentialsId: "github", url: "${PRODUCT_REPO}")
             }
         }
-        stage('RUN_TESTS') {
+        stage('RUN TESTS') {
             steps {
                 sh 'echo "test"'
             }
         }
-        // stage('CODE INSPECTION WITH SONARQUBE') {
-        //     steps {
-        //             sh "/Users/yuriibudnyi/.sonar/sonar-scanner-4.7.0.2747-macosx/bin/sonar-scanner \
-        //                 -Dsonar.organization=test-work \
-        //                 -Dsonar.projectKey=test-work \
-        //                 -Dsonar.sources=./docker \
-        //                 -Dsonar.host.url=https://sonarcloud.io \
-        //                 -Dsonar.login=${SONAR}"
-        //     }
-        // }
+        stage('CODE INSPECTION WITH SONARQUBE') {
+            steps {
+                    sh "/Users/yuriibudnyi/.sonar/sonar-scanner-4.7.0.2747-macosx/bin/sonar-scanner \
+                        -Dsonar.organization=test-work \
+                        -Dsonar.projectKey=test-work \
+                        -Dsonar.sources=./docker \
+                        -Dsonar.host.url=https://sonarcloud.io \
+                        -Dsonar.login=${SONAR}"
+            }
+        }
         stage('BUILD_IMAGES') {
             steps {
                 sh "cd docker && /usr/local/bin/docker build -t ghcr.io/ybudnyi/test-work-image:${VERSION}.${env.BUILD_ID} ."
             }
+        }
+        stage('CHECK IMAGE') {
+            sh "/usr/local/bin/trivy image --format template --template @./html.tpl -o report.html ghcr.io/ybudnyi/test-work-image:${VERSION}.${env.BUILD_ID}"
+            publishHTML target : [
+                    allowMissing: true,
+                    alwaysLinkToLastBuild: true,
+                    keepAll: true,
+                    reportFiles: 'report.html',
+                    reportName: 'Trivy Scan',
+                    reportTitles: 'Trivy Scan'
+                ]
+
         }
         stage('PUSH IMAGES') {
             steps {
